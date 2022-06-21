@@ -28,7 +28,7 @@ export function Logo() {
   return (
     <Link as={RouteLink} to="/">
       <LogoBox>
-        <Image src={LogoImg} style={{ height: 25 }} alt="logo" />
+        <Image src={LogoImg} style={{ height: 28 }} alt="logo" />
         <Text
           color={useColorModeValue('gray.800', 'whiteAlpha.900')}
           fontWeight="bold"

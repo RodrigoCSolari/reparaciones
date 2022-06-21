@@ -10,19 +10,29 @@ import {
   MenuButton,
   IconButton,
   useColorModeValue,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Logo } from './Logo';
 import { LinkItem } from './LinkItem';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { ThemeToggleButton } from './ThemeToggleButton';
 import { Link as RouteLink } from 'react-router-dom';
+import { initialSessionState, Session } from '../containers/Main';
+import { ContactForm } from '../../shared/components/ContactForm';
 
 type Props = {
   path: string;
+  session: Session;
+  setSession: React.Dispatch<React.SetStateAction<Session>>;
 };
 
 export function Navbar(props: Props) {
-  const { path } = props;
+  const cerrarSession = () => {
+    props.setSession(initialSessionState);
+  };
+
+  const contactDisclosure = useDisclosure();
 
   return (
     <Box
@@ -37,7 +47,7 @@ export function Navbar(props: Props) {
       <Container
         display="flex"
         p={2}
-        maxW="container.md"
+        maxW="container.lg"
         wrap="wrap"
         align="center"
         justify="space-between"
@@ -57,22 +67,34 @@ export function Navbar(props: Props) {
             flexGrow={1}
             mt={{ base: 4, md: 0 }}
           >
-            <LinkItem href="/exchange" path={path}>
+            <LinkItem href="/exchange" path={props.path}>
               Exchange
             </LinkItem>
-            <LinkItem href="/pools" path={path}>
+            <LinkItem href="/pools" path={props.path}>
               Pools
             </LinkItem>
-            <LinkItem href="/staking" path={path}>
+            <LinkItem href="/staking" path={props.path}>
               Staking
             </LinkItem>
-            <LinkItem href="/info" path={path}>
+            <LinkItem href="/info" path={props.path}>
               Info
             </LinkItem>
           </Stack>
         )}
 
         <Box flex={1} align="right">
+          {props.session.logged ? (
+            <Button mr="10px" onClick={cerrarSession}>
+              Cerrar Sesion
+            </Button>
+          ) : (
+            <>
+              <Button mr="10px" onClick={contactDisclosure.onOpen}>
+                Contacto
+              </Button>
+              <ContactForm disclosure={contactDisclosure} />
+            </>
+          )}
           <ThemeToggleButton />
 
           {false && (
